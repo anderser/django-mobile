@@ -13,6 +13,23 @@ class SetFlavourMiddleware(object):
                 set_flavour(flavour, request, permanent=True)
 
 
+class PlattformHeaderDetectionMiddleware(object):
+    
+    """ 
+    Sets the flavour based on a header (X-PLATTFORM) set by upstream caches
+    or load balancers like BigIP or Varnish.
+    This header X-PLATTFORM should have the value "mobile" if request 
+    is made from mobile device
+    """
+    
+    def __init__(self):
+        pass
+    
+    def process_request(self, request):
+        if request.META.has_key('HTTP_X_PLATTFORM'):
+                if request.META['HTTP_X_PLATTFORM'] == "mobile":
+                    set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
+
 class MobileDetectionMiddleware(object):
     user_agents_test_match = (
         "w3c ", "acs-", "alav", "alca", "amoi", "audi",
