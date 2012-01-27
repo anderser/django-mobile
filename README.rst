@@ -148,6 +148,27 @@ flavours, you need to add
 in the ``MIDDLEWARE_CLASSES`` settings, right before
 ``FetchFromCacheMiddleware``.
 
+**Template caching**
+
+If you are using Django's `cached template loader 
+<https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types>`
+the ``django_mobile.loader.Loader`` template loader will not work properly.
+
+To use cached template loader and django_mobile switch to the included
+``django_mobile.loader.CachedLoader``. 
+
+In your settings.py include the template loaders like this:
+
+    TEMPLATE_LOADERS = (
+        ('django_mobile.loader.CachedLoader', (
+            'django.template.loaders.filesystem.Loader',
+            'django.template.loaders.app_directories.Loader',
+            'django.template.loaders.eggs.Loader',
+        )),
+    )
+    
+Note: the ``FLAVOURS_TEMPLATE_LOADERS`` setting has no effect when using
+``django_mobile.loader.CachedLoader``. 
 
 Reference
 =========
