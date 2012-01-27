@@ -27,8 +27,13 @@ class PlattformHeaderDetectionMiddleware(object):
     
     def process_request(self, request):
         if request.META.has_key('HTTP_X_PLATTFORM'):
+                print "has mobile header"
                 if request.META['HTTP_X_PLATTFORM'] == "mobile":
-                    set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request)
+                    set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request, permanent=False)
+
+        else:
+            #set default flavour if none is given in header to avoid old flavours from session
+            set_flavour(settings.FLAVOURS[0], request, permanent=False)
 
 class MobileDetectionMiddleware(object):
     user_agents_test_match = (
