@@ -27,7 +27,6 @@ class PlattformHeaderDetectionMiddleware(object):
     
     def process_request(self, request):
         if request.META.has_key('HTTP_X_PLATTFORM'):
-                print "has mobile header"
                 if request.META['HTTP_X_PLATTFORM'] == "mobile":
                     set_flavour(settings.DEFAULT_MOBILE_FLAVOUR, request, permanent=False)
 

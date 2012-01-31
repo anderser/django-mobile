@@ -117,7 +117,6 @@ class CachedLoader(BaseLoader):
             key = '-'.join([template_name, sha_constructor('|'.join(template_dirs)).hexdigest()])
 
         if key not in self.template_cache:
-            print "Template key %s" % key, "NO HIT"
             template, origin = self.find_template(template_name, template_dirs)
             if not hasattr(template, 'render'):
                 try:
@@ -129,11 +128,11 @@ class CachedLoader(BaseLoader):
                     # of the actual template that does not exist.
                     return template, origin
             self.template_cache[key] = template
-        else:
-            print "Template key %s" % key, "HIT"
         
         return self.template_cache[key], None
 
     def reset(self):
-        "Empty the template cache."
+        """
+        Empty the template cache.
+        """
         self.template_cache.clear()
